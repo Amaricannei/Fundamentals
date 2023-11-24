@@ -51,8 +51,8 @@ var main = function (input) {
     }
 
     var randomWord = wordGenerator();
-    console.log("line 46", randomWord);
-    console.log("line 47", inputword);
+    console.log("line 54", randomWord);
+    console.log("line 55", inputword);
 
     if (inputword == randomWord) {
       winCounter++;
