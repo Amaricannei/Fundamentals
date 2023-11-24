@@ -1,136 +1,70 @@
-//Paper Scissor Stone with two modes.
-var gamemode = "intro";
-// game default start in intro mode for inputting name, can be changed into 'Real Game Mode' &'prank mode'.
+var intro = "Name please";
+var Username = "";
+var inputword = "";
 
-var PlayerName = "";
+var winCounter = 0;
+var win = winCounter / 2;
 
-var totalgamePlayed = 0;
-var winS = 0;
-var losseS = 0;
-var tie = 0;
-
-//var myOutputValue = "";
-
-function random() {
-  var random = Math.floor(Math.random() * 3) + 1;
-  var result = "";
-  if (random == 1) {
-    result = "stone";
-  } else if (random == 2) {
-    result = "paper";
-  } else if (random == 3) {
-    result = "scissor";
-  }
-  return result;
-}
-
-var main = function (input) {
-  if (gamemode == "intro") {
-    PlayerName = input;
-    gamemode = "Real Game";
-    return "YalamBBBa!! " + PlayerName;
-  } else if (gamemode == "Real Game") {
-    var userInput = input.toLowerCase();
-    var computer = random();
-
-    if (userInput == "r") {
-      gamemode = "Real Game";
-      return `Game mode switched to <b>${gamemode}<b/>`;
-    } else if (userInput == "p") {
-      gamemode = "Prank";
-      return `Game mode switched to <b>${gamemode}<b/>`;
-    }
-
-    console.log("Computer", computer);
-    console.log("Player", userInput);
-
-    if (gamemode == "Real Game") {
-      if (userInput == computer) {
-        totalgamePlayed++;
-        tie++;
-        var output1 = "";
-        if (computer == "stone") {
-          output1 = "stone 🥌";
-        } else if (computer == "paper") {
-          output1 = "paper 🗒";
-        } else {
-          output1 = "scissor ✂️";
-        }
-        console.log("Tie is working");
-        myOutputValue = `<b>Its a Tie!! <br> Computer ${output1} You ${output1}`;
-      } else if (userInput == "paper" && computer == "scissor") {
-        totalgamePlayed++;
-        myOutputValue = `You lose! <br> Computer ✂️ ${computer.toUpperCase()} You 🗒 ${userInput.toUpperCase()}`;
-        losseS++;
-      } else if (computer == "paper" && userInput == "scissor") {
-        totalgamePlayed++;
-        winS++;
-        myOutputValue = `You Win! <br> Computer 🗒 ${computer.toUpperCase()} You ✂️ ${userInput.toUpperCase()}`;
-      } else if (computer == "stone" && userInput == "scissor") {
-        totalgamePlayed++;
-        myOutputValue = `You lose! <br> Computer 🥌 ${computer.toUpperCase()} You ✂️ ${userInput.toUpperCase()}`;
-        losseS++;
-      } else if (computer == "scissor" && userInput == "stone") {
-        totalgamePlayed++;
-        winS++;
-        myOutputValue = `You Win! <br> Computer ✂️${computer.toUpperCase()} You 🥌 ${userInput.toUpperCase()}`;
-      } else if (computer == "stone" && userInput == "paper") {
-        totalgamePlayed++;
-        winS++;
-        myOutputValue = `You Win! <br> Computer 🥌 ${computer.toUpperCase()} You 🗒 ${userInput.toUpperCase()}`;
-      } else if (computer == "paper" && userInput == "stone") {
-        totalgamePlayed++;
-        losseS++;
-        myOutputValue = `You lose! <br> Computer 🗒 ${computer.toUpperCase()} You 🥌 ${userInput.toUpperCase()}`;
-      } else {
-        return "Type any one (Paper or Scissor, Stone)";
-      }
-      return `<b>${gamemode} <br>${myOutputValue} <br> Game Played: ${totalgamePlayed} *Wins: ${winS} *Tie: ${tie} *Loss: ${losseS}`;
-    }
-  }
-
-  if (gamemode == "Prank") {
-    if (computer == userInput) {
-      totalgamePlayed++;
-      tie++;
-      var output2 = "";
-      if (computer == "stone") {
-        output2 = "stone 🥌";
-      } else if (computer == "paper") {
-        output2 = "paper 🗒";
-      } else {
-        output2 = "scissor ✂️";
-      }
-      console.log("Prank Tie is working");
-      myOutputValue = `<b>Its a Tie!! <br> Computer ${output2} You ${output2}`;
-    } else if (computer == "scissor" && userInput == "stone") {
-      totalgamePlayed++;
-      myOutputValue = `You lose! <br> Computer ✂️ ${computer.toUpperCase()} You 🥌 ${userInput.toUpperCase()}`;
-      losseS++;
-    } else if (computer == "paper" && userInput == "stone") {
-      totalgamePlayed++;
-      winS++;
-      myOutputValue = `You Win! <br> Computer 🗒 ${computer.toUpperCase()} You 🥌 ${userInput.toUpperCase()}`;
-    } else if (computer == "stone" && userInput == "paper") {
-      totalgamePlayed++;
-      myOutputValue = `You lose! <br> Computer 🥌 ${computer.toUpperCase()} You 🗒 ${userInput.toUpperCase()}`;
-      losseS++;
-    } else if (computer == "scissor" && userInput == "paper") {
-      totalgamePlayed++;
-      winS++;
-      myOutputValue = `You Win! <br> Computer ✂️${computer.toUpperCase()} You 🗒 ${userInput.toUpperCase()}`;
-    } else if (computer == "stone" && userInput == "scissor") {
-      totalgamePlayed++;
-      winS++;
-      myOutputValue = `You Win! <br> Computer 🥌 ${computer.toUpperCase()} You ✂️ ${userInput.toUpperCase()}`;
-    } else if (computer == "paper" && userInput == "scissor") {
-      totalgamePlayed++;
-      losseS++;
-      myOutputValue = `You lose! <br> Computer 🗒 ${computer.toUpperCase()} You ✂️ ${userInput.toUpperCase()}`;
-    } else {
-      return "Type any one (Paper or Scissor, Stone)";
-    }
-    return `<b>${gamemode} <br>${myOutputValue} <br> Game Played: ${totalgamePlayed} *Wins: ${winS} *Tie: ${tie} *Loss: ${losseS}`;
+//need to win two games for 1 score, everytime required win counter will not be zero. As soon as you win both games, required to win will go back to 2.
+var reqWin = function () {
+  var req = "";
+  if (win % 2 == 0) {
+    return (req = 2);
+  } else {
+    return (req = win % 2);
   }
 };
-//working
+
+var randomNo = function () {
+  var randomNumber = Math.floor(Math.random() * 3) + 1;
+  return randomNumber;
+};
+
+//generate word based on random number
+var wordGenerator = function () {
+  var word = "";
+  var numberRolled = randomNo();
+  console.log("line 18", numberRolled);
+  if (numberRolled == 1) {
+    return (word = "banana");
+  } else if (numberRolled == 2) {
+    return (word = "chisel");
+  } else if (numberRolled == 3) {
+    return (word = "faucet");
+  }
+};
+
+var main = function (input) {
+  if (intro == "Name please") {
+    Username = input;
+    intro = "Guessing game";
+    return "Hi! " + Username;
+  } else if (intro == "Guessing game") {
+    if (input == 1) {
+      inputword = "banana";
+    } else if (input == 2) {
+      inputword = "chisel";
+    } else if (input == 3) {
+      inputword = "faucet";
+    } else {
+      return "Invalid Input";
+    }
+
+    var randomWord = wordGenerator();
+    console.log("line 46", randomWord);
+    console.log("line 47", inputword);
+
+    if (inputword == randomWord) {
+      winCounter++;
+    }
+    reqWin;
+  }
+  win = Math.floor(winCounter / 2);
+
+  return `<b>${Username} <b/> picked <b>${inputword}<b/>, Secret word is <b>${randomWord}<b/> <br> You have ${win} Win, You need to win ${reqWin()} time`;
+};
+
+/*Create a game where a player must correctly guess secret words to win.
+The computer chooses a random word from a set of three words. Feel free to use whatever words you'd like, but we will be using the words "banana", "chisel", and "faucet".
+To win the game the player must guess correctly twice in total; but is allowed to guess wrongly in between their two correct guesses.
+For each guess, output all information such as the guessed word, the secret word, and how many correct guesses the player still needs until she wins.*/
