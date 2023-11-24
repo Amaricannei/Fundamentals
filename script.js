@@ -1,3 +1,4 @@
+//Paper Scissor Stone with two modes.
 var gamemode = "intro";
 // game default start in intro mode for inputting name, can be changed into 'Real Game Mode' &'prank mode'.
 
